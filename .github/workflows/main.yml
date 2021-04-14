@@ -14,12 +14,12 @@ jobs:
     steps:
       - name: Pull Backend api Docker image
         run: docker pull docker.io/girijashankarswain/ajax-file-upload-spring
-      - name: Run backend api
+      - name: Run Backend api
         run: docker run -d -p 8080:8080 girijashankarswain/ajax-file-upload-spring
       - uses: actions/checkout@v2
       - name: Run E2E tests
         uses: cypress-io/github-action@v2
         with:
           command: npm run test:e2e:ci
-      - name: Stop the backend api
+      - name: Stop the Backend api
         run: docker kill $(docker ps -q)
