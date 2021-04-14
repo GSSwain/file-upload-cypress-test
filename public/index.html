@@ -1,0 +1,33 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        function onSubmit() {
+            const requestBody = new FormData()
+            requestBody.append('file', document.forms["userForm"].file.files[0])
+
+            axios.post('/api/endpoint', requestBody, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(function (response) {
+                console.log(response);
+                document.getElementById('result').innerHTML = "Success";
+            }).catch(function (error) {
+                console.log(error);
+                document.getElementById('result').innerHTML = "Failed";
+                alert(error);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <form name="userForm">
+        <label> File : </label> <br /><input name="file" type="file"><br />
+        <input type="button" value="Submit" id="submit" onclick="onSubmit(); return false;" />
+    </form>
+    <div id="result"></div>
+</body>
+
+</html>
