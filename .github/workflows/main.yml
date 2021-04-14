@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pull Backend api Docker image
+        run: docker pull docker.io/girijashankarswain/ajax-file-upload-spring
+      - name: Run backend api
+        run: docker run -d -p 8080:8080 girijashankarswain/ajax-file-upload-spring
+      - uses: actions/checkout@v2
+      - name: Run E2E tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e:ci
+      - name: Stop the backend api
+        run: docker kill $(docker ps -q)
